@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Predictor AI</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { text-align: center; color: #333; margin-top: 0; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: #666; font-weight: bold; font-size: 14px; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        button { width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 10px; transition: 0.3s; }
+        button:hover { background-color: #0056b3; }
+        #result-box { margin-top: 20px; padding: 15px; background-color: #e9ecef; border-radius: 6px; text-align: center; display: none; font-size: 18px; color: #28a745; font-weight: bold; border: 1px solid #c3e6cb; background-color: #d4edda;}
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Salary Predictor AI 🤖</h2>
+    
+    <form id="predictionForm">
+        <div class="form-group">
+            <label>Age</label>
+            <input type="number" id="age" required value="30">
+        </div>
+
+        <div class="form-group">
+            <label>Gender</label>
+            <select id="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Department</label>
+            <select id="department">
+                <option value="Engineering">Engineering</option>
+                <option value="Sales">Sales</option>
+                <option value="Finance">Finance</option>
+                <option value="HR">HR</option>
+                <option value="Marketing">Marketing</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Job Title</label>
+            <select id="job_title">
+                <option value="Analyst">Analyst</option>
+                <option value="Engineer">Engineer</option>
+                <option value="Manager">Manager</option>
+                <option value="Executive">Executive</option>
+                <option value="Intern">Intern</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Years of Experience</label>
+            <input type="number" id="experience" required value="5">
+        </div>
+
+        <div class="form-group">
+            <label>Education Level</label>
+            <select id="education">
+                <option value="High School">High School</option>
+                <option value="Diploma">Diploma</option>
+                <option value="Bachelor">Bachelor</option>
+                <option value="Master">Master</option>
+                <option value="PhD">PhD</option>
+            </select>
+        </div>
+
+        <button type="submit">Predict Salary</button>
+    </form>
+
+    <div id="result-box">
+        Estimated Salary: <span id="salary-value"></span>
+    </div>
+</div>
+
+<script>
+    // This JavaScript listens for the button click
+    document.getElementById('predictionForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Stop page from reloading
+
+        // 1. Gather all the data from the form
+        const requestData = {
+            Age: parseInt(document.getElementById('age').value),
+            Gender: document.getElementById('gender').value,
+            Department: document.getElementById('department').value,
+            Job_Title: document.getElementById('job_title').value,
+            Experience_Years: parseInt(document.getElementById('experience').value),
+            Education_Level: document.getElementById('education').value
+        };
+
+        // 2. Send the data to your FastAPI backend
+        try {
+            const response = await fetch('http://127.0.0.1:8000/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            });
+
+            const result = await response.json();
+
+            // 3. Show the result on the screen!
+            if (response.ok) {
+                const formattedSalary = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(result.predicted_salary);
+                document.getElementById('salary-value').innerText = formattedSalary;
+                document.getElementById('result-box').style.display = 'block';
+            } else {
+                alert("Error from server. Check console.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Could not connect to the API. Is your FastAPI server running?");
+        }
+    });
+</script>
+
+</body>
+</html>
