@@ -19,6 +19,17 @@ Unlike standard data science scripts, this project is built for production: it u
 * **Target Transformation:** Applied Box-Cox transformation to the skewed Salary data to improve model accuracy, saving the lambda value for inverse transformations in the API.
 * **Model:** Multiple Linear Regression achieving an R2 score of ~0.99.
 
+## 📊 Dataset Details
+The machine learning model is trained on a corporate HR dataset containing employee information and their corresponding salaries. Understanding the data provenance and feature distribution was a critical first step in this project.
+
+**Features included in the dataset:**
+* **Demographics:** `Age`, `Gender`
+* **Corporate Metrics:** `Department`, `Job_Title`
+* **Qualifications:** `Experience_Years`, `Education_Level`
+* **Target Variable:** `Salary` (Continuous numerical value)
+
+**Data Source:** from kaggle
+
 ## 🚀 How to Run Locally
 
 **1. Clone the repository:**
