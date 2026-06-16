@@ -6,6 +6,9 @@ This is a full-stack Machine Learning application that predicts an employee's sa
 
 Unlike standard data science scripts, this project is built for production: it uses a scikit-learn `Pipeline` to handle data preprocessing and is served via a REST API using **FastAPI**. It includes a lightweight HTML/JS frontend for real-time user interaction.
 
+<img width="1562" height="905" alt="Screenshot 2026-06-16 110944" src="https://github.com/user-attachments/assets/f0e64770-7fe8-47f0-ac27-1fb611d96e9c" />
+
+
 ## 🛠️ Tech Stack
 * **Machine Learning:** Python, scikit-learn, pandas, scipy (Box-Cox Transformation)
 * **Backend:** FastAPI, Uvicorn, Pydantic
